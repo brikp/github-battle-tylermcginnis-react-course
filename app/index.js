@@ -3,19 +3,40 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Popular from './components/Popular'
 import Battle from './components/Battle'
+import { ThemeProvider } from './contexts/theme';
+import NavBar from './components/NavBar';
 // Component
 // State
 // Lifecycle
 // UI
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      theme: 'light',
+      toggleTheme: () => {
+        this.setState(({ theme }) => ({
+          theme: theme === 'light' ? 'dark' : 'light'
+        }))
+      }
+    }
+  }
+
   render() {
     return (
-      <div className='container'>
-        <Popular />
-      </div>
+      <ThemeProvider value={this.state}>
+        <div className={this.state.theme}>
+          <div className='container'>
+            <NavBar />
+
+            <Popular />
+          </div>
+        </div>
+      </ThemeProvider>
     )
   }
 }
 
-ReactDOM.render(<Battle />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));
